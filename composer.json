@@ -1,0 +1,28 @@
+{
+    "name": "salmanahmad143/laravel-einvoice-suite",
+    "description": "Multi-provider E-Invoice integration for Laravel 8+ (EY, Adaequare, etc.)",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Salman Ahmad",
+            "email": "your-email@example.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "LaravelEInvoiceSuite\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LaravelEInvoiceSuite\\EInvoiceServiceProvider"
+            ]
+        }
+    },
+    "require": {
+        "php": ">=7.3",
+        "illuminate/support": ">=8.0"
+    }
+}
