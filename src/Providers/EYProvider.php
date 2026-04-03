@@ -13,16 +13,12 @@ class EYProvider extends AbstractEInvoiceProvider
     protected $accessToken = "";
     protected $refreshToken = "";
     protected $apiUrl;
-    protected $userName;
-    protected $password;
 
     public function __construct()
     {
         $config = config('einvoice.providers.ey');
         $this->apiUrl = $config['api_url'] ?? '';
         $this->apiKey = $config['api_key'] ?? '';
-        $this->userName = $config['username'] ?? '';
-        $this->password = $config['password'] ?? '';
         $this->client = new Client();
     }
 
@@ -224,25 +220,25 @@ class EYProvider extends AbstractEInvoiceProvider
     {
         return [
             'Irn'                    => $this->irn,
-            'suppGstin'              => $this->suppGstin,
             'docNo'                  => $this->docNo,
             'docDate'                => $this->docDate,
             'doctype'                => $this->docType,
             'distance'               => $this->distance,
             'vehicleNo'              => $this->vehicleNo,
+            'suppGstin'              => $this->suppGstin,
             'vehicleType'            => $this->vehicleType,
-            'transporterName'        => $this->transporterName,
             'transportMode'          => $this->transportMode,
             'transportDocNo'         => $this->transportDocNo,
+            'transporterName'        => $this->transporterName,
             'transportDocDate'       => $this->transportDocDate,
             'dispatcherTradeName'    => $this->dispatcherTradeName,
             'dispatcherBuildingNo'   => $this->dispatcherBuildingNo,
             'dispatcherBuildingName' => $this->dispatcherBuildingName,
+            'dispatcherStateCode'    => $this->dispatcherStateCode,
+            'shipToBuildingName'     => $this->shipToBuildingName,
             'dispatcherLocation'     => $this->dispatcherLocation,
             'dispatcherPincode'      => $this->dispatcherPincode,
-            'dispatcherStateCode'    => $this->dispatcherStateCode,
             'shipToBuildingNo'       => $this->shipToBuildingNo,
-            'shipToBuildingName'     => $this->shipToBuildingName,
             'shipToLocation'         => $this->shipToLocation,
             'shipToPincode'          => $this->shipToPincode,
             'shipToState'            => $this->shipToState

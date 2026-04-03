@@ -10,11 +10,10 @@ return [
             'password' => env('EINVOICE_EY_PASSWORD'),
         ],
         'adaequare' => [
+            'api_mode' => env('E_INVOICE_API_MODE', 'TEST'),
             'api_url' => env('EINVOICE_ADAEQUARE_API_URL'),
             'client_id' => env('EINVOICE_ADAEQUARE_CLIENT_ID'),
-            'client_secret' => env('EINVOICE_ADAEQUARE_CLIENT_SECRET'),
-            'username' => env('EINVOICE_ADAEQUARE_USERNAME'),
-            'password' => env('EINVOICE_ADAEQUARE_PASSWORD'),
+            'client_secret' => env('EINVOICE_ADAEQUARE_CLIENT_SECRET')
         ],
     ],
 ];

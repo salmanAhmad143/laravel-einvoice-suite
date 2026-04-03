@@ -5,6 +5,10 @@ namespace LaravelEInvoiceSuite\Providers;
 abstract class AbstractEInvoiceProvider implements EInvoiceProviderInterface
 {
     // Shared parameters
+    public $userName = null;
+    public $password = null;
+    public $invoiceType = 'DOMESTIC';
+    public $supplyType = 'B2B';
     public $irn = null;
     public $suppGstin = null;
     public $docNo = null;

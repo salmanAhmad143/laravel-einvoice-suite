@@ -16,17 +16,15 @@ class AdaequareProvider extends AbstractEInvoiceProvider
     protected $apiMode;
 
     public function __construct()
-    {
-        $config = config('einvoice.providers.adaequare');
-        $this->apiUrl = $config['api_url'] ?? '';
-        $this->apiKey = $config['client_id'] ?? '';
-        $this->apiSecret = $config['client_secret'] ?? '';
-        $this->userName = $config['username'] ?? '';
-        $this->password = $config['password'] ?? '';
-        $this->client = new Client();
-        $this->apiMode = env('E_INVOICE_API_MODE', 'TEST');
+    {       
+        $this->client       = new Client();
+        $config             = config('einvoice.providers.adaequare');
+        $this->apiUrl       = $config['api_url'] ?? '';
+        $this->apiKey       = $config['client_id'] ?? '';
+        $this->apiSecret    = $config['client_secret'] ?? ''; 
+        $this->apiMode      = $config['api_mode'] ?? 'TEST';
         if ($this->apiMode == 'TEST') {
-            $this->apiUrl = $this->apiUrl . '/test';
+            $this->apiUrl   = $this->apiUrl . '/test';
         }
     }
 
@@ -45,7 +43,6 @@ class AdaequareProvider extends AbstractEInvoiceProvider
         }
     }
 
-
     public function generateIrn()
     {
         try {
@@ -54,12 +51,12 @@ class AdaequareProvider extends AbstractEInvoiceProvider
                     // Add any required headers here, e.g. authorization if needed
                     'requestid' => 'CT-' . time() . '-' . strtoupper(substr(md5(uniqid()), 0, 5))
                 ],
-                'json' => $this->clearTaxIrnBody()
+                'json' => $this->irnBody()
             ])->getBody(), true);
             if (isset($response["success"]) && $response["success"] == false) {
                 throw new Exception($response["message"]);
             }
-            $response['requestData'] = $this->clearTaxIrnBody();
+            $response['requestData'] = $this->irnBody();
             return $this->returnResponse(true, $response);
         } catch (RequestException $e) {
             return $this->returnResponse(false, $e->getMessage());
@@ -68,14 +65,14 @@ class AdaequareProvider extends AbstractEInvoiceProvider
         }
     }
 
-    private function clearTaxIrnBody()
+    private function irnBody()
     {
         return [
             'Version' => '1.1',
             'TranDtls' => [
                 'TaxSch' => $this->taxScheme,
                 'RegRev' => $this->reverseCharge,
-                'SupTyp' => $this->supplyType ?? 'B2B',
+                'SupTyp' => $this->supplyType,
             ],
             'DocDtls' => [
                 'Typ' => $this->docType,
@@ -165,12 +162,16 @@ class AdaequareProvider extends AbstractEInvoiceProvider
             'VehNo'         => $this->vehicleNo,
             'VehType'       => $this->vehicleType
         ];
-        if (($this->invoiceType ?? 'DOMESTIC') == 'EXPORT') {
+        
+        if ($this->invoiceType == 'EXPORT') {
             $payload['SupplyType']      = "EXP";
             $payload['SubSupplyType']   = "EXPORT";
             $payload['TransactionType'] = 3;
             $payload['ExpShipDtls']     = [
-                // Add export shipping details if needed
+                'Addr1' => $this->shipToBuildingNo,
+                'Loc' 	=> $this->shipToLocation,
+                'Pin' 	=> $this->shipToPincode,
+                'Stcd' 	=> $this->shipToState
             ];
         }
         return $payload;

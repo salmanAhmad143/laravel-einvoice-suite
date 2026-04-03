@@ -43,7 +43,9 @@ EINVOICE_EY_API_KEY=your-ey-api-key
 EINVOICE_EY_USERNAME=your-ey-username
 EINVOICE_EY_PASSWORD=your-ey-password
 
+
 // .env example in case of Adaequare..
+EINVOICE_API_MODE=TEST # or PRODUCTION (for Adaequare provider)
 EINVOICE_ADAEQUARE_API_URL=https://api.adaequare.com
 EINVOICE_ADAEQUARE_CLIENT_ID=your-adaequare-client-id
 EINVOICE_ADAEQUARE_CLIENT_SECRET=your-adaequare-client-secret
